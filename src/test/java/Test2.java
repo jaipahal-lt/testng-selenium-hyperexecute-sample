@@ -15,7 +15,7 @@ import com.aventstack.extentreports.reporter.JsonFormatter;
 public class Test2
 {
     WebDriver driver = null;
-    public static String status = "passed";
+    public static String status = "failed";
     String username = Test1.username;
     String access_key = Test1.access_key;
 
@@ -69,9 +69,9 @@ public class Test2
         driver.get(testURL);
         Thread.sleep(5000);
 
-        test1.log(Status.PASS, "URL is opened");
+        test1.log(Status.FAIL, "URL is opened");
         WebDriverWait wait = new WebDriverWait(driver, 5);
-        test1.log(Status.PASS, "Wait created");
+        test1.log(Status.FAIL, "Wait created");
         By textField = By.id("sampletodotext");
 
         WebElement addText = driver.findElement(textField);
@@ -81,7 +81,7 @@ public class Test2
         for (int i = 1; i <= item_count; i++) {
             addText.click();
             addText.sendKeys("Adding a new item " + i + Keys.ENTER);
-            test1.log(Status.PASS, "New item No. " + i + " is added");
+            test1.log(Status.FAIL, "New item No. " + i + " is added");
             Thread.sleep(2000);
         }
 
@@ -96,7 +96,7 @@ public class Test2
 
             driver.findElement(By.xpath(xpath)).click();
             Thread.sleep(500);
-            test1.log(Status.PASS, "Item No. " + i + " marked completed");
+            test1.log(Status.FAIL, "Item No. " + i + " marked completed");
             By remainingItem = By.className("ng-binding");
             String actualText = driver.findElement(remainingItem).getText();
             String expectedText = remaining+" of "+totalCount+" tasks remaining";
@@ -108,7 +108,7 @@ public class Test2
             }
             Thread.sleep(500);
 
-            test1.log(Status.PASS, "Item No. " + i + " completed");
+            test1.log(Status.FAIL, "Item No. " + i + " completed");
         }
 
         extent.flush();

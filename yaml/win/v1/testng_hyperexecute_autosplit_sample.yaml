@@ -9,12 +9,30 @@ runtime:
   language: java
   version: 11
 
-cacheKey: '{{ checksum "pom.xml" }}'
+# cacheKey: '{{ checksum "pom.xml" }}'
 cacheDirectories:
   - .m2
 
 pre:
   - mvn -Dmaven.repo.local=./.m2 dependency:resolve
+
+globalPost:
+  runson: linux
+  commands:
+    - |
+      cat > /tmp/gp_server.py <<'PY'
+      import http.server, socketserver
+      class H(http.server.BaseHTTPRequestHandler):
+          def do_POST(self):
+              n = int(self.headers.get('Content-Length', 0))
+              body = self.rfile.read(n).decode()
+              open('/tmp/gp_server.log', 'a').write('POST %s BODY=%s\n' % (self.path, body))
+              self.send_response(200); self.end_headers(); self.wfile.write(b'ok')
+          def log_message(self, *a): pass
+      socketserver.TCPServer(('127.0.0.1', 8099), H).serve_forever()
+      PY
+      nohup python3 /tmp/gp_server.py >/tmp/gp_server.out 2>&1 &
+      sleep 3
 
 testDiscovery:
   type: raw
@@ -24,6 +42,6 @@ testDiscovery:
 testRunnerCommand: mvn test `-Dplatname=win `-Dmaven.repo.local=./.m2 dependency:resolve `-DselectedTests=$test
 
 retryOnFailure: true
-maxRetries: 4
+maxRetries: 1
 
 jobLabel: [selenium-testng, win, v1, autosplit]

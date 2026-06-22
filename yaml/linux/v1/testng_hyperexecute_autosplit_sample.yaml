@@ -29,3 +29,5 @@ maxRetries: 1
 jobLabel: [selenium-testng, linux, v1, autosplit]
 
 report: false
+
+report: false

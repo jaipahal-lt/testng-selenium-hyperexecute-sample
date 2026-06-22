@@ -24,7 +24,7 @@ testDiscovery:
 testRunnerCommand: mvn test -Dplatname=linux -Dmaven.repo.local=./.m2 dependency:resolve -DselectedTests=$test
 
 retryOnFailure: true
-maxRetries: 1
+maxRetries: 4
 
 jobLabel: [selenium-testng, linux, v1, autosplit]
 

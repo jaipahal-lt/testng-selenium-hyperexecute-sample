@@ -1,0 +1,40 @@
+---
+version: 0.1
+runson: linux
+
+autosplit: true
+concurrency: 4
+
+runtime:
+  language: java
+  version: 11
+
+env:
+  ENDPOINT: randomHTTPS/${token}
+
+var:
+  token: InYAMLToken
+
+
+cacheKey: '{{ checksum "pom.xml" }}'
+cacheDirectories:
+  - .m2
+
+pre:
+  - echo ${token}
+  - echo ${ENDPOINT}
+  - mvn -Dmaven.repo.local=./.m2 dependency:resolve
+
+testDiscovery:
+  type: raw
+  mode: dynamic
+  command: grep 'test name' xml/testng_linux.xml | awk '{print$2}' | sed 's/name=//g' | sed 's/>//g'
+
+testRunnerCommand: mvn test -Dplatname=linux -Dmaven.repo.local=./.m2 dependency:resolve -DselectedTests=$test
+
+retryOnFailure: true
+maxRetries: 4
+
+jobLabel: [selenium-testng, linux, v1, autosplit]
+
+report: false

@@ -13,7 +13,7 @@ env:
   ENDPOINT: randomHTTPS/${token}
 
 vars:
-  - token: randomisedToken
+  token: randomisedToken
 
 cacheKey: '{{ checksum "pom.xml" }}'
 cacheDirectories:

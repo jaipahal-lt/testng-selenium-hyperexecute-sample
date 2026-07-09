@@ -9,11 +9,19 @@ runtime:
   language: java
   version: 11
 
+env:
+  ENDPOINT: randomHTTPS/${token}
+
+vars:
+  - token: randomisedToken
+
 cacheKey: '{{ checksum "pom.xml" }}'
 cacheDirectories:
   - .m2
 
 pre:
+  - echo ${token}
+  - echo ${ENDPOINT}
   - mvn -Dmaven.repo.local=./.m2 dependency:resolve
 
 testDiscovery:

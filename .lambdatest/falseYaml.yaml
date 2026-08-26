@@ -10,7 +10,7 @@ matrix:
 
 pre:
   - |4
-    mvn dependency:resolve
+     mvn dependency:resolve
 
 testSuites:
   - mvn test -Dplatname=linux -Dmaven.repo.local=m2_cache_dir -DselectedTests=$tests

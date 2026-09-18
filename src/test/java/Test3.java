@@ -98,7 +98,10 @@ public class Test3 {
     @Test(description = "To Do App on React App")
     public void test3_element_addition_1() throws InterruptedException {
         // TE-27603 dev-test branch: this scenario must fail every run
-        org.testng.Assert.fail("TE-27603 deliberate failure in Test_3");
+        // TE-27603 dev test: always fails, except on the matrix combination browser=edge (criss-cross with Test_1)
+        if (!"edge".equals(System.getProperty("browser"))) {
+            org.testng.Assert.fail("TE-27603 deliberate failure in Test_3");
+        }
         ExtentTest test1 = extent.createTest("demo application test 3-1", "To Do App test 1");
 
         driver.get(testURL);

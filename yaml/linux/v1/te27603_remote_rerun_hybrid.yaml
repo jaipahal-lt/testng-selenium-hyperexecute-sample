@@ -23,7 +23,7 @@ cacheDirectories:
   - .m2
 
 pre:
-  - mvn "-Dmaven.repo.local=./.m2" dependency:resolve
+  - mvn -Dmaven.repo.local=./.m2 dependency:resolve
 
 autosplit: true
 concurrency: 2

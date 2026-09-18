@@ -34,7 +34,7 @@ testDiscovery:
   mode: remote
   command: grep 'test name' xml/testng_linux.xml | awk '{print $2}' | sed 's/name=//g; s/[">]//g; s/^[ \t]*//'
 
-testRunnerCommand: mvn test "-Dplatname=${matrix.os}" "-Dmaven.repo.local=./.m2" "-DselectedTests=$test"
+testRunnerCommand: mvn test "-Dplatname=linux" "-Dmaven.repo.local=./.m2" "-DselectedTests=$test"
 
 retryOnFailure: false
 report: false

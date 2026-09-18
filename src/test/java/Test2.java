@@ -13,6 +13,7 @@ import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.edge.EdgeOptions;
 import org.openqa.selenium.firefox.FirefoxOptions;
 import org.openqa.selenium.remote.RemoteWebDriver;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
@@ -98,6 +99,12 @@ public class Test2 {
         ExtentTest test1 = extent.createTest("demo application test 2-1", "To Do App test 1");
 
         driver.get(testURL);
+
+        // the grid may load the sample page slowly; wait instead of relying on implicit 0
+
+        new WebDriverWait(driver, Duration.ofSeconds(30)).until(ExpectedConditions.presenceOfElementLocated(By.id("sampletodotext")));
+
+        System.out.println("TE-27603 page ready: " + driver.getCurrentUrl() + " | " + driver.getTitle());
         Thread.sleep(5000);
 
         test1.log(Status.PASS, "URL is opened");

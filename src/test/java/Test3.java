@@ -30,6 +30,7 @@ public class Test3 {
     public static String status = "passed";
     String username = Test1.username;
     String access_key = Test1.access_key;
+    String hubHost = Test1.hubHost;
 
     // String testURL = "https://todomvc.com/examples/react/#/";
     String testURL = "https://lambdatest.github.io/sample-todo-app/";
@@ -86,7 +87,7 @@ public class Test3 {
 
         try {
             driver = new RemoteWebDriver(
-                    new URL("https://" + username + ":" + access_key + "@hub.lambdatest.com/wd/hub"), browserOptions);
+                    new URL("https://" + username + ":" + access_key + "@" + hubHost + "/wd/hub"), browserOptions);
         } catch (MalformedURLException e) {
             System.out.println("Invalid grid URL");
         }

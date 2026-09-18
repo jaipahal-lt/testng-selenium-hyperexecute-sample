@@ -32,3 +32,5 @@ matrix:
   test: [Test_1, Test_3]
 testSuites:
   - mvn test "-Dplatname=linux" "-Dmaven.repo.local=./.m2" "-DselectedTests=$test"
+env:
+  LT_HUB_HOST: stage-hub.lambdatestinternal.com

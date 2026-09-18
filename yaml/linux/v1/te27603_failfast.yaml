@@ -38,3 +38,5 @@ report: false
 jobLabel: [te-27603, failfast]
 failFast:
   maxNumberOfTests: 1
+env:
+  LT_HUB_HOST: stage-hub.lambdatestinternal.com

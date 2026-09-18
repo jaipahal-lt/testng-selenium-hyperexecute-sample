@@ -35,6 +35,8 @@ public class Test1 {
     public static String status = "passed";
     public static String username = System.getenv("LT_USERNAME");
     public static String access_key = System.getenv("LT_ACCESS_KEY");
+    // hub host is configurable so the same suite can target stage/dev grids (default: prod)
+    public static String hubHost = System.getenv("LT_HUB_HOST") != null ? System.getenv("LT_HUB_HOST") : "hub.lambdatest.com";
 
     ExtentSparkReporter spark = new ExtentSparkReporter("target/surefire-reports/html/extentReport.html");
     JsonFormatter json = new JsonFormatter("target/surefire-reports/json/Extent_Report.json");
@@ -91,7 +93,7 @@ public class Test1 {
 
         try {
             driver = new RemoteWebDriver(
-                    new URL("https://" + username + ":" + access_key + "@hub.lambdatest.com/wd/hub"), browserOptions);
+                    new URL("https://" + username + ":" + access_key + "@" + hubHost + "/wd/hub"), browserOptions);
         } catch (MalformedURLException e) {
             System.out.println("Invalid grid URL");
         }

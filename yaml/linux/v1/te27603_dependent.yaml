@@ -1,0 +1,40 @@
+---
+# TE-27603 dev test payload: remote discovery, auto-split. Real Selenium/TestNG run;
+# Test_3 fails deterministically (assertion in Test3.java on this branch).
+version: 0.1
+
+# the jp10 project 'te27603-rerun' (linked to this repo) — rerun needs a project with a repository
+project:
+  id: 01M2T0G3N9RV28DEJNHKZ8TY51
+  name: te27603-rerun
+  type: custom
+
+runson: linux
+
+runtime:
+  language: java
+  version: 11
+
+cacheKey: '{{ checksum "pom.xml" }}'
+cacheDirectories:
+  - .m2
+
+pre:
+  - mvn -Dmaven.repo.local=./.m2 dependency:resolve
+
+autosplit: true
+concurrency: 2
+
+testDiscovery:
+  type: raw
+  mode: remote
+  command: grep 'test name' xml/testng_linux.xml | awk '{print $2}' | sed 's/name=//g' | sed 's/>//g' | sed 's/^[ \t]*//'
+  dependentScenariosJsonPaths:
+    - yaml/linux/v1/te27603_deps.json
+
+testRunnerCommand: mvn test -Dplatname=linux -Dmaven.repo.local=./.m2 dependency:resolve -DselectedTests=$test
+
+retryOnFailure: false
+report: false
+
+jobLabel: [te-27603, dependent]

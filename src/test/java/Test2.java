@@ -100,6 +100,8 @@ public class Test2 {
 
         driver.get(testURL);
 
+        System.out.println("TE-27603 landed: " + driver.getCurrentUrl() + " | title=" + driver.getTitle() + " | bytes=" + driver.getPageSource().length());
+
         // the grid may load the sample page slowly; wait instead of relying on implicit 0
 
         new WebDriverWait(driver, Duration.ofSeconds(30)).until(ExpectedConditions.presenceOfElementLocated(By.id("sampletodotext")));

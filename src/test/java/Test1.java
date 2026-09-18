@@ -108,6 +108,8 @@ public class Test1 {
 
         driver.get(testURL);
 
+        System.out.println("TE-27603 landed: " + driver.getCurrentUrl() + " | title=" + driver.getTitle() + " | bytes=" + driver.getPageSource().length());
+
         // the grid may load the sample page slowly; wait instead of relying on implicit 0
 
         new WebDriverWait(driver, Duration.ofSeconds(30)).until(ExpectedConditions.presenceOfElementLocated(By.id("sampletodotext")));
@@ -170,6 +172,8 @@ public class Test1 {
         ExtentTest test2 = extent.createTest("demo application test 1-2", "To Do App test 2");
 
         driver.get(testURL);
+
+        System.out.println("TE-27603 landed: " + driver.getCurrentUrl() + " | title=" + driver.getTitle() + " | bytes=" + driver.getPageSource().length());
 
         // the grid may load the sample page slowly; wait instead of relying on implicit 0
 

@@ -1,7 +1,6 @@
 ---
-# TE-27603 dev test payload: remote discovery, auto-split, one deterministic failure.
-# The runner needs no browser or hub: it passes or fails purely by the scenario name,
-# so the job produces exactly Test_3 failed and Test_1/2/4 passed, every time.
+# TE-27603 dev test payload: remote discovery, auto-split. Real Selenium/TestNG run;
+# Test_3 fails deterministically (assertion in Test3.java on this branch).
 version: 0.1
 
 # the jp10 project 'te27603-rerun' (linked to this repo) — rerun needs a project with a repository
@@ -12,6 +11,17 @@ project:
 
 runson: linux
 
+runtime:
+  language: java
+  version: 11
+
+cacheKey: '{{ checksum "pom.xml" }}'
+cacheDirectories:
+  - .m2
+
+pre:
+  - mvn -Dmaven.repo.local=./.m2 dependency:resolve
+
 autosplit: true
 concurrency: 2
 
@@ -20,11 +30,7 @@ testDiscovery:
   mode: remote
   command: grep 'test name' xml/testng_linux.xml | awk '{print $2}' | sed 's/name=//g' | sed 's/>//g' | sed 's/^[ \t]*//'
 
-testRunnerCommand: bash -c 'echo "TE-27603 running $test"; case "$test" in *Test_3*) echo "deliberate failure"; exit 1;; esac; echo "passed"'
-
-# the runner is a plain shell command with no grid sessions; without this a passing
-# scenario is stamped 'skipped' (empty task.json), with it the exit code decides
-scenarioCommandStatusOnly: true
+testRunnerCommand: mvn test -Dplatname=linux -Dmaven.repo.local=./.m2 dependency:resolve -DselectedTests=$test
 
 retryOnFailure: false
 report: false

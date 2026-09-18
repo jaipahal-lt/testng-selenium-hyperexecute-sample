@@ -32,7 +32,7 @@ parallelism: 2
 testDiscovery:
   type: raw
   mode: remote
-  command: grep 'test name' xml/testng_linux.xml | awk '{print $2}' | sed 's/name=//g' | sed 's/>//g' | sed 's/^[ \t]*//'
+  command: grep 'test name' xml/testng_linux.xml | awk '{print $2}' | sed 's/name=//g; s/[">]//g; s/^[ \t]*//'
 
 testRunnerCommand: mvn test "-Dplatname=${matrix.os}" "-Dmaven.repo.local=./.m2" "-DselectedTests=$test"
 

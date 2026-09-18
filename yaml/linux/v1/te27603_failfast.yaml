@@ -36,3 +36,5 @@ retryOnFailure: false
 report: false
 
 jobLabel: [te-27603, failfast]
+failFast:
+  maxNumberOfTests: 1

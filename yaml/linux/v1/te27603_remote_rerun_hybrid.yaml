@@ -15,6 +15,7 @@ matrix:
 
 autosplit: true
 concurrency: 2
+parallelism: 2
 
 testDiscovery:
   type: raw

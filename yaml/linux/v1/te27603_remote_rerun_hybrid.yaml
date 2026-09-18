@@ -23,7 +23,7 @@ cacheDirectories:
   - .m2
 
 pre:
-  - mvn -Dmaven.repo.local=./.m2 dependency:resolve
+  - mvn "-Dmaven.repo.local=./.m2" dependency:resolve
 
 autosplit: true
 concurrency: 2
@@ -34,7 +34,7 @@ testDiscovery:
   mode: remote
   command: grep 'test name' xml/testng_linux.xml | awk '{print $2}' | sed 's/name=//g' | sed 's/>//g' | sed 's/^[ \t]*//'
 
-testRunnerCommand: mvn test -Dplatname=linux -Dmaven.repo.local=./.m2 dependency:resolve -DselectedTests=$test
+testRunnerCommand: mvn test "-Dplatname=${matrix.os}" "-Dmaven.repo.local=./.m2" "-DselectedTests=$test"
 
 retryOnFailure: false
 report: false

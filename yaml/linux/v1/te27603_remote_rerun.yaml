@@ -3,6 +3,13 @@
 # The runner needs no browser or hub: it passes or fails purely by the scenario name,
 # so the job produces exactly Test_3 failed and Test_1/2/4 passed, every time.
 version: 0.1
+
+# the jp10 project 'te27603-rerun' (linked to this repo) — rerun needs a project with a repository
+project:
+  id: 01M2T0G3N9RV28DEJNHKZ8TY51
+  name: te27603-rerun
+  type: custom
+
 runson: linux
 
 autosplit: true

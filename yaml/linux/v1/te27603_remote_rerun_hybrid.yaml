@@ -1,6 +1,13 @@
 ---
 # TE-27603 dev test payload: hybrid (auto-split x matrix.os), remote discovery, one failure per OS.
 version: 0.1
+
+# the jp10 project 'te27603-rerun' (linked to this repo) — rerun needs a project with a repository
+project:
+  id: 01M2T0G3N9RV28DEJNHKZ8TY51
+  name: te27603-rerun
+  type: custom
+
 runson: ${matrix.os}
 
 matrix:

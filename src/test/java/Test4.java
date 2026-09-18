@@ -34,7 +34,7 @@ public class Test4 {
     String hubHost = Test1.hubHost;
 
     // String testURL = "https://todomvc.com/examples/react/#/";
-    String testURL = "https://lambdatest.github.io/sample-todo-app/";
+    String testURL = TodoApp.url(); // GitHub Pages sample is gone (404); inline stand-in
     String testURLTitle = "Sample page - lambdatest.com";
 
     ExtentSparkReporter spark = new ExtentSparkReporter("target/surefire-reports/html/extentReport.html");

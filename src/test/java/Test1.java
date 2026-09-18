@@ -44,7 +44,7 @@ public class Test1 {
     ExtentReports extent = new ExtentReports();
 
     // String testURL = "https://todomvc.com/examples/react/#/";
-    String testURL = "https://lambdatest.github.io/sample-todo-app/";
+    String testURL = TodoApp.url(); // GitHub Pages sample is gone (404); inline stand-in
     String testURLTitle = "Sample page - lambdatest.com";
 
     @BeforeMethod

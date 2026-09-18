@@ -22,6 +22,10 @@ testDiscovery:
 
 testRunnerCommand: bash -c 'echo "TE-27603 running $test"; case "$test" in *Test_3*) echo "deliberate failure"; exit 1;; esac; echo "passed"'
 
+# the runner is a plain shell command with no grid sessions; without this a passing
+# scenario is stamped 'skipped' (empty task.json), with it the exit code decides
+scenarioCommandStatusOnly: true
+
 retryOnFailure: false
 report: false
 

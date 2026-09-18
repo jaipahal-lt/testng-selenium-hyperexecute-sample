@@ -1,0 +1,22 @@
+---
+# TE-27603 dev test payload: hybrid (auto-split x matrix.os), remote discovery, one failure per OS.
+version: 0.1
+runson: ${matrix.os}
+
+matrix:
+  os: [linux, win]
+
+autosplit: true
+concurrency: 2
+
+testDiscovery:
+  type: raw
+  mode: remote
+  command: grep 'test name' xml/testng_linux.xml | awk '{print $2}' | sed 's/name=//g' | sed 's/>//g' | sed 's/^[ \t]*//'
+
+testRunnerCommand: bash -c 'echo "TE-27603 running $test"; case "$test" in *Test_3*) echo "deliberate failure"; exit 1;; esac; echo "passed"'
+
+retryOnFailure: false
+report: false
+
+jobLabel: [te-27603, remote, hybrid]

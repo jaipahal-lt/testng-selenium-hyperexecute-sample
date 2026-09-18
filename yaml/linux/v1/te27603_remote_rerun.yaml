@@ -1,0 +1,21 @@
+---
+# TE-27603 dev test payload: remote discovery, auto-split, one deterministic failure.
+# The runner needs no browser or hub: it passes or fails purely by the scenario name,
+# so the job produces exactly Test_3 failed and Test_1/2/4 passed, every time.
+version: 0.1
+runson: linux
+
+autosplit: true
+concurrency: 2
+
+testDiscovery:
+  type: raw
+  mode: remote
+  command: grep 'test name' xml/testng_linux.xml | awk '{print $2}' | sed 's/name=//g' | sed 's/>//g' | sed 's/^[ \t]*//'
+
+testRunnerCommand: bash -c 'echo "TE-27603 running $test"; case "$test" in *Test_3*) echo "deliberate failure"; exit 1;; esac; echo "passed"'
+
+retryOnFailure: false
+report: false
+
+jobLabel: [te-27603, remote, autosplit]

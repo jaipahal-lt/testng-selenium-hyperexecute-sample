@@ -38,6 +38,3 @@ report: false
 jobLabel: [te-27603, hps-probe]
 failFast:
   maxNumberOfTests: 1
-  level: scenario
-failFast:
-  maxNumberOfTests: 1

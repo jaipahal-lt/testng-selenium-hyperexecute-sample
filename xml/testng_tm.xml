@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="TE-27603 test matrix helper" thread-count="1">
+	<test name="Test_5">
+			<classes>
+				<class name="Test5" />
+			</classes>
+	</test>
+	<test name="Test_3">
+			<parameter name="browser" value="Chrome"/>
+			<parameter name="version" value="latest"/>
+			<parameter name="platform" value="LINUX"/>
+			<parameter name="resolution" value="1024x768"/>
+			<classes>
+				<class name="Test3" />
+			</classes>
+	</test>
+</suite>

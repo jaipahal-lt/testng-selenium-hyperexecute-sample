@@ -1,0 +1,34 @@
+---
+# TE-27603 test matrix case D5: globalPre remote + yamlPath (VM-side merge) → subset refused
+version: 0.1
+project:
+  id: 01M2T0G3N9RV28DEJNHKZ8TY51
+  name: te27603-rerun
+  type: custom
+runson: linux
+runtime:
+  language: java
+  version: 11
+cacheKey: '{{ checksum "pom.xml" }}'
+cacheDirectories:
+  - .m2
+pre:
+  - mvn -Dmaven.repo.local=./.m2 dependency:resolve
+retryOnFailure: false
+report: false
+env:
+  LT_HUB_HOST: stage-hub.lambdatestinternal.com
+globalPre:
+  mode: remote
+  runson: linux
+  yamlPath: yaml/linux/v1/tm_override.yaml
+  commands:
+    - echo "TE27603 remote globalPre with yamlPath"
+autosplit: true
+concurrency: 2
+testDiscovery:
+  type: raw
+  mode: remote
+  command: grep 'test name' xml/testng_linux.xml | awk '{print $2}' | sed 's/name=//g; s/[">]//g; s/^[ \t]*//'
+testRunnerCommand: mvn test "-Dplatname=linux" "-Dmaven.repo.local=./.m2" "-DselectedTests=$test"
+jobLabel: [te-27603, tm, d5]

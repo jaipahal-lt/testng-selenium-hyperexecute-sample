@@ -1,0 +1,24 @@
+---
+# TE-27603 test matrix case A4: YAML version 0.2 → not admitted
+version: 0.2
+project:
+  id: 01M2T0G3N9RV28DEJNHKZ8TY51
+  name: te27603-rerun
+  type: custom
+runson: linux
+autosplit: true
+concurrency: 2
+runtime:
+  language: java
+  version: 11
+pre:
+  - mvn -Dmaven.repo.local=./.m2 dependency:resolve
+framework:
+  name: maven/testng
+  defaultReports: false
+  flags:
+    - "-Dplatname=linux"
+    - "-Dmaven.repo.local=./.m2"
+env:
+  LT_HUB_HOST: stage-hub.lambdatestinternal.com
+jobLabel: [te-27603, tm, a4]

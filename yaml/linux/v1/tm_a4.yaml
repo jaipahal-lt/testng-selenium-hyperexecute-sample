@@ -19,6 +19,7 @@ framework:
   flags:
     - "-Dplatname=linux"
     - "-Dmaven.repo.local=./.m2"
+    - "--file=pom02.xml"
 env:
   LT_HUB_HOST: stage-hub.lambdatestinternal.com
 jobLabel: [te-27603, tm, a4]

@@ -1,0 +1,50 @@
+---
+# TE-27603 dev test payload: hybrid (auto-split x matrix.os) with a REMOTE global-pre and LOCAL
+# discovery (the CLI discovers on the submitting machine). One combination, so the failed-scope
+# rerun takes the single-call form; Test_3 fails deterministically (Test3.java on this branch).
+version: 0.1
+
+project:
+  id: 01M2T0G3N9RV28DEJNHKZ8TY51
+  name: te27603-rerun
+  type: custom
+
+runson: ${matrix.os}
+
+matrix:
+  os: [linux]
+
+runtime:
+  language: java
+  version: 11
+
+cacheKey: '{{ checksum "pom.xml" }}'
+cacheDirectories:
+  - .m2
+
+globalPre:
+  mode: remote
+  runson: linux
+  commands:
+    - echo "TE27603 remote globalPre ran on $(hostname)"
+
+pre:
+  - mvn -Dmaven.repo.local=./.m2 dependency:resolve
+
+autosplit: true
+concurrency: 2
+parallelism: 2
+
+testDiscovery:
+  type: raw
+  mode: local
+  command: grep 'test name' xml/testng_linux.xml | awk '{print $2}' | sed 's/name=//g; s/[">]//g; s/^[ \t]*//'
+
+testRunnerCommand: mvn test "-Dplatname=linux" "-Dmaven.repo.local=./.m2" "-DselectedTests=$test"
+
+retryOnFailure: false
+report: false
+
+jobLabel: [te-27603, hybrid, gpre-remote, local-discovery]
+env:
+  LT_HUB_HOST: stage-hub.lambdatestinternal.com

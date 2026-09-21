@@ -100,6 +100,7 @@ public class Test3 {
         // TE-27603 dev-test branch: this scenario must fail every run
         // TE-27603 dev test: always fails, except on the matrix combination browser=edge (criss-cross with Test_1)
         if (!"edge".equals(System.getProperty("browser"))) {
+            status = "failed"; // report the failure to LambdaTest too (lambda-status in @AfterMethod)
             org.testng.Assert.fail("TE-27603 deliberate failure in Test_3");
         }
         ExtentTest test1 = extent.createTest("demo application test 3-1", "To Do App test 1");

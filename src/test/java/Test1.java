@@ -105,6 +105,7 @@ public class Test1 {
     public void test1_element_addition_1() throws InterruptedException {
         // TE-27603 dev test: fail only on one matrix combination so the failed set is non-rectangular
         if ("edge".equals(System.getProperty("browser"))) {
+            status = "failed";
             org.testng.Assert.fail("TE-27603 deliberate failure in Test_1 on browser=edge");
         }
         extent.attachReporter(json, spark);

@@ -99,7 +99,9 @@ public class Test3 {
     public void test3_element_addition_1() throws InterruptedException {
         // TE-27603 dev-test branch: this scenario must fail every run
         // TE-27603 dev test: always fails, except on the matrix combination browser=edge (criss-cross with Test_1)
-        if (!"edge".equals(System.getProperty("browser"))) {
+        // …and passes on Windows too, so a two-OS hybrid can fail on one leg only (test matrix B13)
+        boolean onWindows = System.getProperty("os.name", "").toLowerCase().contains("win");
+        if (!"edge".equals(System.getProperty("browser")) && !onWindows) {
             status = "failed"; // report the failure to LambdaTest too (lambda-status in @AfterMethod)
             org.testng.Assert.fail("TE-27603 deliberate failure in Test_3");
         }

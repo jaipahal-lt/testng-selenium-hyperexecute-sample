@@ -1,0 +1,35 @@
+---
+# TE-27603 test matrix case b12: hybrid remote os[linux,win], Test_1 fails on both OSes (browser=edge) → per-OS subset
+version: 0.1
+project:
+  id: 01M2T0G3N9RV28DEJNHKZ8TY51
+  name: te27603-rerun
+  type: custom
+runson: ${matrix.os}
+matrix:
+  os: [linux, win]
+runtime:
+  language: java
+  version: 11
+cacheKey: '{{ checksum "pom.xml" }}'
+cacheDirectories:
+  - .m2
+pre:
+  - mvn -Dmaven.repo.local=./.m2 dependency:resolve
+retryOnFailure: false
+report: false
+env:
+  LT_HUB_HOST: stage-hub.lambdatestinternal.com
+autosplit: true
+concurrency: 2
+parallelism: 2
+testDiscovery:
+  type: raw
+  mode: remote
+  command: printf 'Test_1
+Test_3
+Test_2
+Test_4
+'
+testRunnerCommand: mvn test "-Dplatname=linux" "-Dmaven.repo.local=./.m2" "-DselectedTests=$test" "-Dbrowser=edge"
+jobLabel: [te-27603, tm, b12]

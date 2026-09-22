@@ -1,0 +1,34 @@
+---
+# TE-27603 test matrix case B19: hybrid with per-OS test runner commands. The converted
+# (matrix) form cannot hold a command per OS, so this job must keep the OS-wise grouped route.
+# Test_3 fails on linux only (Test3 passes on Windows), so the subset narrows to linux.
+version: 0.1
+project:
+  id: 01M3478KB23C0NPEXB0SADMB4T
+  name: te27603-rerun
+  type: custom
+runson: ${matrix.os}
+matrix:
+  os: [linux, win]
+runtime:
+  language: java
+  version: 11
+cacheKey: '{{ checksum "pom.xml" }}'
+cacheDirectories:
+  - .m2
+pre:
+  - mvn -Dmaven.repo.local=./.m2 dependency:resolve
+autosplit: true
+concurrency: 2
+parallelism: 2
+retryOnFailure: false
+report: false
+testDiscovery:
+  type: raw
+  mode: remote
+  command: printf 'Test_3\nTest_2\nTest_4\n'
+linuxTestRunnerCommand: mvn test "-Dplatname=linux" "-Dmaven.repo.local=./.m2" "-DselectedTests=$test"
+winTestRunnerCommand: mvn test "-Dplatname=linux" "-Dmaven.repo.local=./.m2" "-DselectedTests=$test"
+jobLabel: [te-27603, tm, b19]
+env:
+  LT_HUB_HOST: stage-hub.lambdatestinternal.com

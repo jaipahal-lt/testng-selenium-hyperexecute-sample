@@ -17,3 +17,6 @@ hyperexecute-cli-*
 .vscode/
 .mvn/
 yaml/linux/v1/.tm_*
+yaml/**/mask-*.yaml
+mask-*.yaml
+hyperexecute-cli.log

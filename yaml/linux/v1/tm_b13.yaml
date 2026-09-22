@@ -26,10 +26,6 @@ parallelism: 2
 testDiscovery:
   type: raw
   mode: remote
-  command: printf 'Test_1
-Test_3
-Test_2
-Test_4
-'
+  command: printf 'Test_1\nTest_3\nTest_2\nTest_4\n'
 testRunnerCommand: mvn test "-Dplatname=linux" "-Dmaven.repo.local=./.m2" "-DselectedTests=$test"
 jobLabel: [te-27603, tm, b13]

@@ -1,0 +1,31 @@
+# TE-27603 test matrix case B15: hybrid remote, failures under one browser value only → key pinned
+version: 0.1
+project:
+    id: 01M3478KB23C0NPEXB0SADMB4T
+    name: te27603-rerun
+    type: custom
+runson: ${matrix.os}
+matrix:
+    os: [linux]
+    browser: [chrome, edge]
+runtime:
+    language: java
+    version: 11
+cacheKey: '{{ checksum "pom.xml" }}'
+cacheDirectories:
+    - .m2
+pre:
+    - mvn -Dmaven.repo.local=./.m2 dependency:resolve
+retryOnFailure: false
+report: false
+env:
+    LT_HUB_HOST: stage-hub.lambdatestinternal.com
+autosplit: true
+concurrency: 1
+parallelism: 1
+testDiscovery:
+    type: raw
+    mode: remote
+    command: printf 'Test_3\nTest_2\nTest_4\n'
+testRunnerCommand: mvn test "-Dplatname=linux" "-Dmaven.repo.local=./.m2" "-DselectedTests=$test" "-Dbrowser=$browser"
+jobLabel: [te-27603, tm, b15]

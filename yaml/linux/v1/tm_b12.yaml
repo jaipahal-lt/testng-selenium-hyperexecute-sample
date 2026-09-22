@@ -2,7 +2,7 @@
 # TE-27603 test matrix case b12: hybrid remote os[linux,win], Test_1 fails on both OSes (browser=edge) → per-OS subset
 version: 0.1
 project:
-  id: 01M2T0G3N9RV28DEJNHKZ8TY51
+  id: 01M3478KB23C0NPEXB0SADMB4T
   name: te27603-rerun
   type: custom
 runson: ${matrix.os}

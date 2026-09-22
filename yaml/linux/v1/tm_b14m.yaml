@@ -1,0 +1,35 @@
+---
+# TE-27603 experiment B14-matrix: the conversion a hybrid subset would emit when its
+# failures span several values of a non-OS key. Hand-crafted here as matrix mode:
+# matrix.test carries the failed scenario names, exclusionMatrix drops the settled cells.
+# Expected: exactly two tasks — (Test_1, edge) and (Test_3, chrome).
+version: 0.1
+project:
+  id: 01M3478KB23C0NPEXB0SADMB4T
+  name: te27603-rerun
+  type: custom
+runson: ${matrix.os}
+matrix:
+  os: [linux]
+  test: [Test_1, Test_3]
+  browser: [chrome, edge]
+exclusionMatrix:
+  - test: [Test_1]
+    browser: [chrome]
+  - test: [Test_3]
+    browser: [edge]
+runtime:
+  language: java
+  version: 11
+cacheKey: '{{ checksum "pom.xml" }}'
+cacheDirectories:
+  - .m2
+pre:
+  - mvn -Dmaven.repo.local=./.m2 dependency:resolve
+retryOnFailure: false
+report: false
+testSuites:
+  - mvn test "-Dplatname=linux" "-Dmaven.repo.local=./.m2" "-DselectedTests=$test" "-Dbrowser=$browser"
+jobLabel: [te-27603, tm, b14m]
+env:
+  LT_HUB_HOST: stage-hub.lambdatestinternal.com

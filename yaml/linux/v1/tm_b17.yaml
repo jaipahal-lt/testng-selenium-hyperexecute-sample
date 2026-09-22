@@ -1,5 +1,6 @@
 ---
-# TE-27603 test matrix case B18: hybrid remote + remote globalPre, failures on both OSes → refused
+# TE-27603 test matrix case B17: hybrid (single OS) with a remote globalPre → the subset
+# travels in the single-call grouped form; the global-pre task runs first, no discovery task.
 version: 0.1
 project:
   id: 01M3478KB23C0NPEXB0SADMB4T
@@ -7,30 +8,30 @@ project:
   type: custom
 runson: ${matrix.os}
 matrix:
-  os: [linux, win]
+  os: [linux]
 runtime:
   language: java
   version: 11
 cacheKey: '{{ checksum "pom.xml" }}'
 cacheDirectories:
   - .m2
-pre:
-  - mvn -Dmaven.repo.local=./.m2 dependency:resolve
-retryOnFailure: false
-report: false
-env:
-  LT_HUB_HOST: stage-hub.lambdatestinternal.com
 globalPre:
   mode: remote
   runson: linux
   commands:
-    - echo "TE27603 remote globalPre"
+    - echo "TE27603 remote globalPre (B17)"
+pre:
+  - mvn -Dmaven.repo.local=./.m2 dependency:resolve
 autosplit: true
 concurrency: 1
 parallelism: 1
+retryOnFailure: false
+report: false
 testDiscovery:
   type: raw
   mode: remote
   command: printf 'Test_3\nTest_2\nTest_4\n'
 testRunnerCommand: mvn test "-Dplatname=linux" "-Dmaven.repo.local=./.m2" "-DselectedTests=$test"
-jobLabel: [te-27603, tm, b18]
+jobLabel: [te-27603, tm, b17]
+env:
+  LT_HUB_HOST: stage-hub.lambdatestinternal.com

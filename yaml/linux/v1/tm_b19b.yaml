@@ -1,5 +1,5 @@
 ---
-# TE-27603 test matrix case B19: hybrid whose OSes run GENUINELY different runner commands
+# TE-27603 test matrix case B19b: hybrid whose OSes run GENUINELY different runner commands
 # (linux selects by name, win adds -Dbrowser=edge so Test_1 fails there). Failures on both
 # OSes, so the converted (matrix) form — a single testSuites entry — cannot express it and the
 # job must keep the OS-wise grouped route, each leg resolving its own command.
@@ -27,9 +27,9 @@ report: false
 testDiscovery:
   type: raw
   mode: remote
-  command: printf 'Test_1\nTest_3\n'
+  command: printf 'Test_3\n'
 linuxTestRunnerCommand: mvn test "-Dplatname=linux" "-Dmaven.repo.local=./.m2" "-DselectedTests=$test"
 winTestRunnerCommand: mvn test "-Dplatname=linux" "-Dmaven.repo.local=./.m2" "-DselectedTests=$test" "-Dbrowser=edge"
-jobLabel: [te-27603, tm, b19]
+jobLabel: [te-27603, tm, b19b]
 env:
   LT_HUB_HOST: stage-hub.lambdatestinternal.com

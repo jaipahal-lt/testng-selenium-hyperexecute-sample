@@ -1,0 +1,47 @@
+---
+# TE-27603 test matrix case B24: hybrid whose OSes run genuinely different commands AND a
+# second matrix key the failures span. Refused before the per-OS conversion; converts now.
+version: 0.1
+
+project:
+  id: 01M3478KB23C0NPEXB0SADMB4T
+  name: te27603-rerun
+  type: custom
+
+runson: ${matrix.os}
+matrix:
+  os: [linux, win]
+  browser: [chrome, edge]
+
+runtime:
+  language: java
+  version: 11
+
+cacheKey: '{{ checksum "pom.xml" }}'
+cacheDirectories:
+  - .m2
+
+pre:
+  - mvn -Dmaven.repo.local=./.m2 dependency:resolve
+
+retryOnFailure: false
+report: false
+
+env:
+  LT_HUB_HOST: stage-hub.lambdatestinternal.com
+
+autosplit: true
+concurrency: 1
+parallelism: 1
+
+testDiscovery:
+  type: raw
+  mode: remote
+  command: printf 'Test_1\nTest_3\n'
+
+# genuinely different per OS: the win command carries an extra flag, so the two do not resolve
+# to the same text and the conversion has to carry one command per OS
+linuxTestRunnerCommand: mvn test "-Dplatname=linux" "-Dmaven.repo.local=./.m2" "-DselectedTests=$test" "-Dbrowser=$browser"
+winTestRunnerCommand: mvn test "-Dplatname=linux" "-Dmaven.repo.local=./.m2" "-DselectedTests=$test" "-Dbrowser=$browser" "-DwinLeg=true"
+
+jobLabel: [te-27603, tm, b24]
